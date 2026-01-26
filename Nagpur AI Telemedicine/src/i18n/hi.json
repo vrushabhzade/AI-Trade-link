@@ -1,0 +1,58 @@
+{
+    "nav": {
+        "findDoctors": "डॉक्टर खोजें",
+        "videoConsult": "वीडियो परामर्श",
+        "prescriptions": "नुस्खे",
+        "dashboard": "डैशबोर्ड",
+        "login": "साइन इन करें",
+        "register": "साइन अप करें",
+        "home": "मुख्य पृष्ठ",
+        "profile": "प्रोफ़ाइल",
+        "admin": "व्यवस्थापक"
+    },
+    "dashboard": {
+        "welcome": "वापसी पर स्वागत है",
+        "welcomeSubtitle": "यहाँ आपका दैनिक स्वास्थ्य अवलोकन है।",
+        "healthOverview": "स्वास्थ्य अवलोकन",
+        "upcomingAppointments": "आगामी नियुक्तियां"
+    },
+    "symptomChecker": {
+        "title": "एआई लक्षण जांचकर्ता",
+        "description": "त्वरित एआई-संचालित मार्गदर्शन प्राप्त करने के लिए अपने लक्षणों का वर्णन करें।",
+        "placeholder": "अपने लक्षण लिखें...",
+        "greeting": "नमस्ते {{name}}! मैं हेल्थब्रिज एआई हूं। अपने लक्षणों का वर्णन करें, और मैं आपको सही देखभाल खोजने में मदद करूंगा।।",
+        "referralButton": "PHC रेफरल पर्ची जेनरेट करें",
+        "referralTitle": "PHC रेफरल - नागपुर स्वास्थ्य नेटवर्क",
+        "referralNote": "यह पर्ची नागपुर जिले के किसी भी सरकारी PHC में मान्य है।"
+    },
+    "findDoctors": {
+        "title": "अपने विशेषज्ञ को खोजें",
+        "subtitle": "उन सत्यापित डॉक्टरों से जुड़ें जो आपकी भाषा बोलते हैं।",
+        "searchPlaceholder": "नाम, विशेषता...",
+        "filters": "फ़िल्टर",
+        "language": "बोली जाने वाली भाषा",
+        "gender": "पसंदीदा लिंग",
+        "allLanguages": "सभी भाषाएं",
+        "allGenders": "सभी",
+        "female": "महिला",
+        "male": "पुरुष",
+        "availableCount": "{{count}} डॉक्टर उपलब्ध हैं"
+    },
+    "prescriptions": {
+        "title": "मेरे नुस्खे",
+        "subtitle": "कभी भी अपने डिजिटल रिकॉर्ड तक पहुंचें।",
+        "orderMedicines": "दवाएं मंगवाएं",
+        "active": "सक्रिय",
+        "completed": "पूरा हुआ",
+        "download": "डाउनलोड",
+        "share": "साझा करें"
+    },
+    "doctorDashboard": {
+        "title": "डॉक्टर कंसोल",
+        "welcome": "वापसी पर स्वागत है, डॉ. {{name}}",
+        "totalPatients": "कुल मरीज़",
+        "avgWaitTime": "औसत प्रतीक्षा समय",
+        "incomingRequests": "आने वाले अनुरोध",
+        "noPending": "कोई लंबित नियुक्तियां नहीं हैं।"
+    }
+}

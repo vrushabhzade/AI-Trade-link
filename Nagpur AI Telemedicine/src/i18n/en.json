@@ -1,0 +1,58 @@
+{
+    "nav": {
+        "findDoctors": "Find Doctors",
+        "videoConsult": "Video Consult",
+        "prescriptions": "Prescriptions",
+        "dashboard": "Dashboard",
+        "login": "Sign In",
+        "register": "Sign Up",
+        "home": "Home",
+        "profile": "Profile",
+        "admin": "Admin"
+    },
+    "dashboard": {
+        "welcome": "Welcome back",
+        "welcomeSubtitle": "Here is your daily health overview.",
+        "healthOverview": "Health Overview",
+        "upcomingAppointments": "Upcoming Appointments"
+    },
+    "symptomChecker": {
+        "title": "AI Symptom Checker",
+        "description": "Describe your symptoms to get instant AI-powered guidance.",
+        "placeholder": "Type your symptoms...",
+        "greeting": "Hello {{name}}! I'm HealthBridge AI. Describe your symptoms, and I'll help you find the right care.",
+        "referralButton": "Generate PHC Referral Slip",
+        "referralTitle": "PHC Referral - Nagpur Health Network",
+        "referralNote": "This slip is valid at any Government PHC in Nagpur District."
+    },
+    "findDoctors": {
+        "title": "Find Your Specialist",
+        "subtitle": "Connect with verified doctors who speak your language.",
+        "searchPlaceholder": "Name, Specialty...",
+        "filters": "Filters",
+        "language": "Language Spoken",
+        "gender": "Preferred Gender",
+        "allLanguages": "All Languages",
+        "allGenders": "All",
+        "female": "Female",
+        "male": "Male",
+        "availableCount": "{{count}} Doctors Available"
+    },
+    "prescriptions": {
+        "title": "My Prescriptions",
+        "subtitle": "Access your digital records anytime.",
+        "orderMedicines": "Order Medicines",
+        "active": "Active",
+        "completed": "Completed",
+        "download": "Download",
+        "share": "Share"
+    },
+    "doctorDashboard": {
+        "title": "Doctor Console",
+        "welcome": "Welcome back, Dr. {{name}}",
+        "totalPatients": "Total Patients",
+        "avgWaitTime": "Avg. Wait Time",
+        "incomingRequests": "Incoming Requests",
+        "noPending": "No pending appointments."
+    }
+}

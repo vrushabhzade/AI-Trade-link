@@ -1,0 +1,58 @@
+{
+    "nav": {
+        "findDoctors": "डॉक्टर शोधा",
+        "videoConsult": "व्हिडिओ सल्ला",
+        "prescriptions": "औषधोपचार",
+        "dashboard": "डैशबोर्ड",
+        "login": "साइन इन करा",
+        "register": "साइन अप करा",
+        "home": "मुख्य पृष्ठ",
+        "profile": "प्रोफाइल",
+        "admin": "प्रशासक"
+    },
+    "dashboard": {
+        "welcome": "पुन्हा स्वागत आहे",
+        "welcomeSubtitle": "येथे तुमचे दैनंदिन आरोग्य विहंगावलोकन आहे.",
+        "healthOverview": "आरोग्य विहंगावलोकन",
+        "upcomingAppointments": "आगामी भेटी"
+    },
+    "symptomChecker": {
+        "title": "एआय लक्षण तपासक",
+        "description": "झटपट एआय-चालित मार्गदर्शन मिळवण्यासाठी तुमच्या लक्षणांचे वर्णन करा.",
+        "placeholder": "तुमची लक्षणे टाइप करा...",
+        "greeting": "नमस्कार {{name}}! मी हेल्थब्रिज एआय आहे. तुमच्या लक्षणांचे वर्णन करा आणि मी तुम्हाला योग्य आरोग्य सेवा शोधण्यात मदत करेन.",
+        "referralButton": "PHC रेफरल स्लिप तयार करा",
+        "referralTitle": "PHC रेफरल - नागपूर आरोग्य नेटवर्क",
+        "referralNote": "ही स्लिप नागपूर जिल्ह्यातील कोणत्याही सरकारी PHC मध्ये वैध आहे।"
+    },
+    "findDoctors": {
+        "title": "तुमचे तज्ञ शोधा",
+        "subtitle": "तुमची भाषा बोलणाऱ्या सत्यापित डॉक्टरांशी जोडा.",
+        "searchPlaceholder": "नाव, वैशिष्ट्य...",
+        "filters": "फिल्टर्स",
+        "language": "बोलली जाणारी भाषा",
+        "gender": "पसंतीचे लिंग",
+        "allLanguages": "सर्व भाषा",
+        "allGenders": "सर्व",
+        "female": "महिला",
+        "male": "पुरुष",
+        "availableCount": "{{count}} डॉक्टर उपलब्ध आहेत"
+    },
+    "prescriptions": {
+        "title": "माझे औषधोपचार",
+        "subtitle": "तुमचे डिजिटल रेकॉर्ड कधीही मिळवा.",
+        "orderMedicines": "औषधे मागवा",
+        "active": "सक्रिय",
+        "completed": "पूर्ण",
+        "download": "डाउनलोड",
+        "share": "शेअर करा"
+    },
+    "doctorDashboard": {
+        "title": "डॉक्टर कन्सोल",
+        "welcome": "पुन्हा स्वागत आहे, डॉ. {{name}}",
+        "totalPatients": "एकूण रुग्ण",
+        "avgWaitTime": "सरासरी प्रतीक्षा वेळ",
+        "incomingRequests": "येणारे विनंत्या",
+        "noPending": "कोणत्याही प्रलंबित भेटी नाहीत."
+    }
+}

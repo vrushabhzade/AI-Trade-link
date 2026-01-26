@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "awslabs.aws-diagram-mcp-server": {
+      "disabled": false,
+      "timeout": 60,
+      "type": "stdio",
+      "command": "pipx",
+      "args": ["run", "awslabs.aws-diagram-mcp-server"],
+      "env": {
+        "FASTMCP_LOG_LEVEL": "ERROR"
+      }
+    }
+  }
+}
