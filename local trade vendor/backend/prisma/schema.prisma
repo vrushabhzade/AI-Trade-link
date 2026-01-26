@@ -1,0 +1,202 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String   @id @default(cuid())
+  email             String   @unique
+  passwordHash      String   @map("password_hash")
+  fullName          String   @map("full_name")
+  phone             String?
+  role              Role     @default(BUYER)
+  preferredLanguage String   @default("en") @map("preferred_language")
+  location          Json?    // {city, country, coordinates}
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  vendor       Vendor?
+  negotiations Negotiation[] @relation("BuyerNegotiations")
+  messages     Message[]
+  transactions Transaction[] @relation("BuyerTransactions")
+
+  @@map("users")
+}
+
+model Vendor {
+  id           String          @id @default(cuid())
+  userId       String          @unique @map("user_id")
+  businessName Json            @map("business_name") // {"en": "Shop Name", "hi": "दुकान का नाम"}
+  description  Json?
+  address      String?
+  location     Unsupported("point")? // PostGIS POINT type
+  languages    String[]        @default(["en"])
+  verified     Boolean         @default(false)
+  rating       Decimal         @default(0.00) @db.Decimal(3, 2)
+  totalSales   Int             @default(0) @map("total_sales")
+  avatarUrl    String?         @map("avatar_url")
+  bannerUrl    String?         @map("banner_url")
+  createdAt    DateTime        @default(now()) @map("created_at")
+
+  // Relations
+  user         User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  products     Product[]
+  negotiations Negotiation[]   @relation("VendorNegotiations")
+  transactions Transaction[]   @relation("VendorTransactions")
+
+  @@map("vendors")
+}
+
+model Product {
+  id                String   @id @default(cuid())
+  vendorId          String   @map("vendor_id")
+  name              Json     // {"en": "Tomatoes", "hi": "टमाटर"}
+  description       Json?
+  category          String
+  subcategory       String?
+  basePrice         Decimal  @map("base_price") @db.Decimal(10, 2)
+  currency          String   @default("USD")
+  unit              String?  // 'kg', 'lb', 'piece', etc.
+  quantityAvailable Int?     @map("quantity_available")
+  images            String[] @default([])
+  attributes        Json?    // {color: 'red', organic: true}
+  isActive          Boolean  @default(true) @map("is_active")
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  vendor       Vendor        @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+  negotiations Negotiation[]
+  transactions Transaction[]
+
+  @@map("products")
+}
+
+model Negotiation {
+  id             String            @id @default(cuid())
+  productId      String            @map("product_id")
+  buyerId        String            @map("buyer_id")
+  vendorId       String            @map("vendor_id")
+  status         NegotiationStatus @default(ACTIVE)
+  initialPrice   Decimal           @map("initial_price") @db.Decimal(10, 2)
+  currentOffer   Decimal?          @map("current_offer") @db.Decimal(10, 2)
+  finalPrice     Decimal?          @map("final_price") @db.Decimal(10, 2)
+  buyerLanguage  String            @map("buyer_language")
+  vendorLanguage String            @map("vendor_language")
+  expiresAt      DateTime?         @map("expires_at")
+  createdAt      DateTime          @default(now()) @map("created_at")
+  updatedAt      DateTime          @updatedAt @map("updated_at")
+
+  // Relations
+  product  Product   @relation(fields: [productId], references: [id])
+  buyer    User      @relation("BuyerNegotiations", fields: [buyerId], references: [id])
+  vendor   Vendor    @relation("VendorNegotiations", fields: [vendorId], references: [id])
+  messages Message[]
+  transaction Transaction?
+
+  @@map("negotiations")
+}
+
+model Message {
+  id               String      @id @default(cuid())
+  negotiationId    String      @map("negotiation_id")
+  senderId         String      @map("sender_id")
+  originalText     String      @map("original_text")
+  originalLanguage String      @map("original_language")
+  translations     Json        @default("{}") // {"en": "Hello", "hi": "नमस्ते"}
+  messageType      MessageType @default(TEXT) @map("message_type")
+  priceOffer       Decimal?    @map("price_offer") @db.Decimal(10, 2)
+  createdAt        DateTime    @default(now()) @map("created_at")
+
+  // Relations
+  negotiation Negotiation @relation(fields: [negotiationId], references: [id], onDelete: Cascade)
+  sender      User        @relation(fields: [senderId], references: [id])
+
+  @@map("messages")
+}
+
+enum Role {
+  BUYER
+  VENDOR
+  ADMIN
+}
+
+enum NegotiationStatus {
+  ACTIVE
+  ACCEPTED
+  REJECTED
+  EXPIRED
+}
+
+enum MessageType {
+  TEXT
+  OFFER
+  COUNTER_OFFER
+  ACCEPTANCE
+}
+
+model Transaction {
+  id              String            @id @default(cuid())
+  negotiationId   String            @unique @map("negotiation_id")
+  buyerId         String            @map("buyer_id")
+  vendorId        String            @map("vendor_id")
+  productId       String            @map("product_id")
+  quantity        Int               @default(1)
+  agreedPrice     Decimal           @map("agreed_price") @db.Decimal(10, 2)
+  totalAmount     Decimal           @map("total_amount") @db.Decimal(10, 2)
+  currency        String            @default("USD")
+  status          TransactionStatus @default(PENDING)
+  paymentMethod   String?           @map("payment_method")
+  paymentStatus   PaymentStatus     @default(PENDING) @map("payment_status")
+  deliveryStatus  DeliveryStatus    @default(PENDING) @map("delivery_status")
+  deliveryAddress Json?             @map("delivery_address")
+  deliveryTracking String?          @map("delivery_tracking")
+  notes           String?
+  disputeReason   String?           @map("dispute_reason")
+  completedAt     DateTime?         @map("completed_at")
+  createdAt       DateTime          @default(now()) @map("created_at")
+  updatedAt       DateTime          @updatedAt @map("updated_at")
+
+  // Relations
+  negotiation Negotiation @relation(fields: [negotiationId], references: [id])
+  buyer       User        @relation("BuyerTransactions", fields: [buyerId], references: [id])
+  vendor      Vendor      @relation("VendorTransactions", fields: [vendorId], references: [id])
+  product     Product     @relation(fields: [productId], references: [id])
+
+  @@map("transactions")
+}
+
+enum TransactionStatus {
+  PENDING
+  CONFIRMED
+  PROCESSING
+  COMPLETED
+  CANCELLED
+  DISPUTED
+  REFUNDED
+}
+
+enum PaymentStatus {
+  PENDING
+  AUTHORIZED
+  CAPTURED
+  FAILED
+  REFUNDED
+}
+
+enum DeliveryStatus {
+  PENDING
+  PREPARING
+  SHIPPED
+  IN_TRANSIT
+  DELIVERED
+  FAILED
+}
