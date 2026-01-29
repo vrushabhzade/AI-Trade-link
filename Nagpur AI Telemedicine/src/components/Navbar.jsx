@@ -86,19 +86,8 @@ const Navbar = () => {
                         </select>
                     </div>
 
-                    {user ? (
-                        <ProfileSwitcher />
-                    ) : (
-                        <Link to="/login">
-                            <button style={{
-                                background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)',
-                                color: 'white', padding: '0.6rem 1.25rem', borderRadius: '50px', fontWeight: '600',
-                                cursor: 'pointer', transition: 'all 0.2s'
-                            }}>
-                                {t('nav.login')}
-                            </button>
-                        </Link>
-                    )}
+                    {/* Profile Switcher - User is always auto-logged in now */}
+                    <ProfileSwitcher />
                 </div>
 
                 {/* Mobile Toggle */}

@@ -30,11 +30,14 @@ function App() {
             <Navbar />
             <main>
               <Routes>
-                <Route path="/" element={<LandingPage />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
+                {/* Direct access to Dashboard, bypassing Landing Page and Login */}
+                <Route path="/" element={<Dashboard />} />
 
-                {/* Protected Routes */}
+                {/* Keep these if user wants to switch context, but hide from main flow */}
+                <Route path="/login" element={<Dashboard />} />
+                <Route path="/register" element={<Dashboard />} />
+
+                {/* Protected Routes (Technically "protected" but user is always guest-authed now) */}
                 <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
                 <Route path="/doctor-dashboard" element={<ProtectedRoute><DoctorDashboard /></ProtectedRoute>} />
                 <Route path="/find-doctors" element={<ProtectedRoute><FindDoctors /></ProtectedRoute>} />

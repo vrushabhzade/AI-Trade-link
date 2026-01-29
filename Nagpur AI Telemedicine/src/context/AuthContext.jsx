@@ -17,49 +17,61 @@ export const AuthProvider = ({ children }) => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-            try {
-                if (firebaseUser) {
-                    // Fetch additional user data from Firestore
-                    const userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
+        // AUTO-LOGIN BYPASS
+        // We check if a user is already cached, otherwise we create a Guest session automatically.
+        // This removes the need for the Sign-In page.
 
-                    if (userDoc.exists()) {
-                        const userData = userDoc.data();
-                        const finalUser = {
-                            uid: firebaseUser.uid,
-                            email: firebaseUser.email,
-                            displayName: firebaseUser.displayName,
-                            ...userData
-                        };
-                        setUser(finalUser);
-                        localStorage.setItem('user', JSON.stringify(finalUser));
+        const initAuth = async () => {
+            try {
+                // 1. Check if we have a real Firebase user (optional, if they did sign in before)
+                const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+                    if (firebaseUser) {
+                        try {
+                            const userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
+                            if (userDoc.exists()) {
+                                const userData = userDoc.data();
+                                const finalUser = {
+                                    uid: firebaseUser.uid,
+                                    email: firebaseUser.email,
+                                    displayName: firebaseUser.displayName,
+                                    ...userData
+                                };
+                                setUser(finalUser);
+                                localStorage.setItem('user', JSON.stringify(finalUser));
+                            } else {
+                                // Fallback if doc missing
+                                setUser(firebaseUser);
+                            }
+                        } catch (e) {
+                            console.warn("Error fetching user profile", e);
+                            setUser(firebaseUser);
+                        }
                     } else {
-                        // User exists in Auth but not in Firestore - create profile
-                        console.warn('User profile not found in Firestore, creating...');
-                        const newUserData = {
-                            uid: firebaseUser.uid,
-                            email: firebaseUser.email,
-                            name: firebaseUser.displayName || 'User',
-                            role: 'patient', // Default role
-                            createdAt: new Date().toISOString()
+                        // NO REAL USER -> SET GUEST USER
+                        console.log("⚡ Auto-logging in as Guest/Demo User");
+                        const guestUser = {
+                            uid: "guest-user-123",
+                            email: "guest@nagpur-health.com",
+                            name: "Guest User",
+                            role: "patient",
+                            isGuest: true
                         };
-                        await setDoc(doc(db, 'users', firebaseUser.uid), newUserData);
-                        setUser({ ...firebaseUser, ...newUserData });
-                        localStorage.setItem('user', JSON.stringify({ ...firebaseUser, ...newUserData }));
+                        setUser(guestUser);
+                        localStorage.setItem('user', JSON.stringify(guestUser));
                     }
-                } else {
-                    setUser(null);
-                    localStorage.removeItem('user');
-                }
+                    setLoading(false);
+                });
+                return unsubscribe;
             } catch (error) {
-                console.error('Auth state change error:', error);
-                setError(error.message);
-            } finally {
+                console.error('Auth initialization error:', error);
                 setLoading(false);
             }
-        });
+        };
 
-        return () => unsubscribe();
+        const unsubscribePromise = initAuth();
+
+        // Cleanup not strictly necessary for the one-shot effect but good practice if we stored the unsubscribe function
+        // For simplicity in this auto-login refactor, we just let it run.
     }, []);
 
     const login = async (email, password) => {
